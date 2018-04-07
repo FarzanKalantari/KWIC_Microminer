@@ -1,59 +1,67 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * CircularShift: Performs circular word shift to the right
+ * CircularShift: Performs circular word shift to the right, repeating
  *
  */
-public class CircularShift implements StorageI {
+public class CircularShift implements StorageI{
 
-	/**
-	 * Line Storage object
-	 */
-	private LineStorage lineStore = new LineStorage();
+	StorageI lineStore = new LineStorage();
+	public  ArrayList<String> noiseWordList;
+	int shiftedLineIndex = 0;
+	String line;
+	String words[];
+	String url = "";
+	String shiftedDescriptor[];
+	String[] descriptor;
+	String shiftedSentence;
 
-	/**
-	 * Construct the Circular Shift object based on Line Storage object
-	 *
-	 * @param lineStorage
-	 */
+	public CircularShift() {
+		String noiseWords[] = { "a", "an", "the", "and", "or", "of", "to", "be", "is", "in", "out",     "by", "as", "at", "off" };
+		noiseWordList = new ArrayList<String>(Arrays.asList(noiseWords));
+	}
+
 	/**
 	 * Performs the circular shifts and adds them to the circular line list
 	 */
-	private String line[];
-	private int shiftedLineIndex = 0;
-	String[] shiftedDescriptor;
-	String[] descriptor;
-	String url;
-
 	public void setup(StorageI lineStorage) {
-		//loop through all original lines to shift
-		for (int i = 0; i < lineStorage.getLineCount(); i++) {
-			line = lineStorage.getWord(i);
 
-			if(line[line.length-1].contains("http:")) {
-				url = line[line.length - 1];
+		for(int i = 0; i < lineStorage.getLineCount(); i++){
+			//stores input lines into words
+			words = lineStorage.getLine(i).split(" ");
+
+			//takes last entry in string array to get url
+			if(words[words.length-1].contains("http:")) {
+				url = words[words.length-1];
+			}
+			else {
+				System.out.println("No URL");
 			}
 
-			//truncates url
-			descriptor = Arrays.copyOf(line, line.length - 1);
-
+			//cuts off url to just leave descriptor, if there is a url
+			if(!url.equals("")) {
+				descriptor = Arrays.copyOf(words, words.length-1);
+			}
+			else {
+				descriptor = words;
+			}
 			shiftedDescriptor = new String[descriptor.length];
-			System.out.println("descriptor "+ descriptor);
 
 			//loop through how many words on current line to produce shift
-			for (int j = 0; j < descriptor.length; j++) {
+			for(int j = 0; j < descriptor.length; j++){
 
-				//**take original array, then copy circular shift into different array of words(shiftedWords)
-				//** parameters(array source, source position, array destination, destination position, length)
-				System.arraycopy(descriptor, 1, shiftedDescriptor, 0, descriptor.length - 1);
-				System.arraycopy(descriptor, 0, shiftedDescriptor, descriptor.length - 1, 1);
+				System.arraycopy(descriptor, 1 , shiftedDescriptor, 0,  descriptor.length -1);
+				System.arraycopy(descriptor, 0 , shiftedDescriptor,  descriptor.length -1, 1);
 
+				shiftedSentence = String.join(" ", shiftedDescriptor);
 
-				//**stick first line of shifted words together into a sentence
-				String shiftedSentence = String.join(" ", shiftedDescriptor);
+				String firstWord = shiftedSentence.split(" ")[0].toLowerCase();
 
-				setLine(shiftedLineIndex, shiftedSentence + " " + url);
-				System.out.println("shifted "+ shiftedSentence);
+				// If first word is a noise word, don't set it. otherwise set descriptor+url
+				if (!noiseWordList.contains(firstWord)) {
+					setLine(shiftedLineIndex, shiftedSentence + " " +  url);
+				}
 
 				//**sets next circular shift to be the one we just created so we don't just shift the original sentence again
 				descriptor = shiftedSentence.split("\\s+");
@@ -62,35 +70,35 @@ public class CircularShift implements StorageI {
 		}
 	}
 
-		//sets shifted lines on given line
-		public void setLine(int lineNumber, String shiftedLine) {
-			lineStore.setLine(lineNumber, shiftedLine);
-
-		}
-
-		//returns a shifted line based on given line number
-		public String getLine(int lineNumber) {
-			return lineStore.getLine(lineNumber);
-		}
-
-		//returns words on given shifted line
-		public String[] getWord(int lineNumber) {
-			return lineStore.getWord(lineNumber);
-		}
-
-		//sets shifted words on given line
-		public void setWord(int lineNumber, String line) {
-			lineStore.setWord(lineNumber, line);
-		}
-
-		//number of shifted lines
-		public int getLineCount() {
-			return shiftedLineIndex;
-		}
-
-		@Override
-		public int getWordCountOnLine(int lineNumber) {
-			return lineStore.getWordCountOnLine(lineNumber);
-		}
+	//sets shifted lines on given line
+	public void setLine(int lineNumber, String shiftedLine) {
+		lineStore.setLine(lineNumber, shiftedLine);
 
 	}
+
+	//returns a shifted line based on given line number
+	public String getLine(int lineNumber) {
+		return lineStore.getLine(lineNumber);
+	}
+
+	//number of shifted lines
+	public int getLineCount(){
+		return shiftedLineIndex;
+	}
+
+	//      public void setDescriptor(int lineNumber, String descriptor) {
+	//              lineStore.setDescriptor(lineNumber, descriptor);
+	//
+	//      }
+	//      public String getDescriptor(int lineNumber) {
+	//              return lineStore.getDescriptor(lineNumber);
+	//      }
+	//      public void setURL(int lineNumber, String line) {
+	//              lineStore.setURL(lineNumber, line);
+	//      }
+	//      public String getURL(int lineNumber) {
+	//              return lineStore.getURL(lineNumber);
+	//      }
+
+
+}

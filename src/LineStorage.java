@@ -5,35 +5,36 @@ import java.util.HashMap;
 /**
  * LineStorage: Stores the line and words
  */
-public class LineStorage implements StorageI {
+import java.util.HashMap;
+
+/**
+ * LineStorage: Stores the line and words
+ */
+public class LineStorage implements StorageI{
 
         /**
          * Map that stores line number and corresponding sentence/line
          */
-        private HashMap<Integer, String> lineMap;
+        private  HashMap<Integer, String> lineMap;
 
-        /**
-         * Map that stores line number and corresponding word array
-         */
-        private HashMap<Integer, String[]> wordMap;
+
+//      private  HashMap<Integer, String> urlMap;
+//      private  HashMap<Integer, String> descriptorMap;
+
 
         /**
          * Construct the object
          */
         public LineStorage() {
                 lineMap = new HashMap<>();
-                wordMap = new HashMap<>();
+//              descriptorMap = new HashMap<>();
+//          urlMap = new HashMap<>();
+
         }
 
         //returns total number of lines from input
         public int getLineCount() {
                 return lineMap.size();
-        }
-
-        //returns number of words for given line
-        public int getWordCountOnLine(int lineNumber) {
-                String[] words = wordMap.get(lineNumber);
-                return words.length;
         }
 
 
@@ -44,12 +45,6 @@ public class LineStorage implements StorageI {
                 return lineMap.get(lineNumber);
         }
 
-        /**
-         * Get word array based on the line number
-         */
-        public String[] getWord(int lineNumber) {
-                return wordMap.get(lineNumber);
-        }
 
         /**
          * Add a line to the storage line map which automatically calls the addWord
@@ -58,20 +53,30 @@ public class LineStorage implements StorageI {
         public void setLine(int lineNumber, String line) {
                 lineMap.put(lineNumber, line);
 
-                setWord(lineNumber, line);
+                //setURL(lineNumber, line);
+                //setDescriptor(lineNumber, line);
         }
 
-        public String getFirstWord(int lineNumber) {
-                String firstWord = getWord(lineNumber)[0].split("\\s+")[0].trim();
-                return   firstWord;
-        }
+//      public void setDescriptor(int lineNumber, String line) {
+//              //descriptorMap.put(lineNumber, line);
+//              descriptorMap.put(lineNumber, line.substring(0, line.lastIndexOf(" ")));
+//      }
+//
+//      public String getDescriptor(int lineNumber) {
+//              return descriptorMap.get(lineNumber);
+//      }
 
-        /**
-         * Add storage word arry map
-         */
-        public void setWord(int lineNumber, String line) {
-                wordMap.put(lineNumber, line.split(" "));
-        }
+//      public void setURL(int lineNumber, String line) {
+//              //urlMap.put(lineNumber,line);
+//
+//              urlMap.put(lineNumber, line.substring(line.lastIndexOf(" ") + 1));
+//
+//      }
+//
+//      public String getURL(int lineNumber) {
+//              return urlMap.get(lineNumber);
+//      }
+
 
 
 }

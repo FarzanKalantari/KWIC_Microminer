@@ -2,17 +2,23 @@
 
 public interface StorageI {
 
-    public void setLine(int lineNumber, String line);
 
-    //returns a shifted line based on given line number
-    public String getLine(int lineNumber);
 
-    public int getLineCount();
+        //sets lines into map, key line number, entry line
+        public void setLine(int lineNumber, String line);
 
-    public String[] getWord(int lineNumber);
+        //returns a  line based on given line number
+        public String getLine(int lineNumber);
 
-    //sets shifted words on given line
-    public void setWord(int lineNumber, String line);
+        //returns number of lines in the map
+        public int getLineCount();
 
-    public int getWordCountOnLine(int lineNumber);
+
+//      public String getDescriptor(int lineNumber);
+//      public void setDescriptor(int lineNumber, String descriptor);
+//      public void setURL(int lineNumber, String line);
+//      public String getURL(int i);
+
+
 }
+
