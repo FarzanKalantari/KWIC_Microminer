@@ -20,10 +20,10 @@ public class MinerSearch {
 		try {
 			stmt = con.createStatement();
 			ResultSet rs1 = stmt.executeQuery(sql);
-			System.out.println();
+//			System.out.println();
 
 			while(rs1.next()){
-				System.out.println("result sorted statement: " + rs1.getString("SortedLine"));
+//				System.out.println("result sorted statement: " + rs1.getString("SortedLine"));
 				sortedLines.add(rs1.getString("SortedLine"));
 			}
 
@@ -44,11 +44,11 @@ public class MinerSearch {
 		try {
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
-			System.out.println();
+//			System.out.println();
 
 			while(rs.next()){
 				inputLines.add(rs.getString("InputLine"));
-				System.out.println("result input statement: " + rs.getString("InputLine"));
+//				System.out.println("result input statement: " + rs.getString("InputLine"));
 			}
 
 		} catch (SQLException e) {

@@ -48,7 +48,8 @@ public class SearchServlet extends HttpServlet {
 		System.out.println("\ntime to run prog: " + (endTime-startTime) + " milliseconds");
                                 
                 //update beans and refresh page
-                request.setAttribute("bean", bean);
+                if(bean != null)
+                    request.getSession().setAttribute("bean", bean);
                 request.setAttribute("output", results);
                 request.setAttribute("search", search);
                 request.getRequestDispatcher("SearchPage.jsp").forward(request, response);

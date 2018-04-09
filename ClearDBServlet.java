@@ -31,10 +31,18 @@ public class ClearDBServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
+                
+                Bean bean = (Bean) request.getSession().getAttribute("bean");
+                if(bean != null){
+                    bean.setInput(null);
+                    bean.setResults(null);
+                }
+                
 		SQLCreate.connect();
 		SQLCreate.removeAllRecords();
 
+                if(bean != null)
+                    request.getSession().setAttribute("bean", bean);
                 request.getRequestDispatcher("SearchPage.jsp").forward(request, response);
 	}
 

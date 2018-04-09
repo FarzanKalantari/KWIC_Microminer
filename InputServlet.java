@@ -62,7 +62,7 @@ public class InputServlet extends HttpServlet{
                 bean.setInput(results);
                 
                 //update beans and refresh page
-                request.setAttribute("bean", bean);
+                request.getSession().setAttribute("bean", bean);
                 request.getRequestDispatcher("SearchPage.jsp").forward(request, response);
 	}
 
