@@ -2,3 +2,4 @@ University of Central Oklahoma http://www.uco.edu
 University of Oklahoma http://www.ou.edu
 Arizona State University http://www.asu.edu
 Oklahoma State University http://www.osu.edu
+University of Michigan http://www.mu.edu
